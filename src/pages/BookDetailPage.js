@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
@@ -98,3 +99,4 @@ const BookDetailPage = () => {
 };
 
 export default BookDetailPage;
+*/
