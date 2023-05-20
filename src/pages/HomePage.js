@@ -17,7 +17,7 @@ import {
   Typography,
   CardContent,
 } from "@mui/material";
-import { getBooks } from "../features/book/actions";
+import { getBooks, setPageNum, setQuery } from "../features/book/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
@@ -30,6 +30,9 @@ const HomePage = () => {
   const books = useSelector((state) => state.book.books); // tai vi dat ten
   const pageNum = useSelector((state) => state.book.pageNum);
   const query = useSelector((state) => state.book.query);
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
   const handleClickBook = (bookId) => {
@@ -45,6 +48,7 @@ const HomePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+
   const handleClickBook = (bookId) => {
     navigate(`/books/${bookId}`);
   };
@@ -84,7 +88,21 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getBooks(pageNum, query));
-  }, [dispatch]);
+  }, [pageNum, query]);
+
+  const defaultValues = {
+    searchQuery: "",
+  };
+
+  const methods = useForm({
+    defaultValues,
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = (data) => {
+    dispatch(setQuery(data.searchQuery));
+  };
 
   return (
     <Container>
@@ -92,33 +110,8 @@ const HomePage = () => {
         <Typography variant="h3" sx={{ textAlign: "center" }}>
           Book Store
         </Typography>
+        {errorMessage && <Alert severity="danger">{errorMessage}</Alert>}
 
-        {books?.map((book) => (
-          <Card
-            key={book.id}
-            sx={{
-              width: "12rem",
-              height: "27rem",
-              marginBottom: "2rem",
-            }}
-          >
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                image={`${BACKEND_API}/${book.imageLink}`}
-                alt={`${book.title}`}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {`${book.title}`}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
-
-        {/*
-          {errorMessage && <Alert severity="danger">{errorMessage}</Alert>}
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Stack
             spacing={2}
@@ -130,18 +123,10 @@ const HomePage = () => {
             <SearchForm />
           </Stack>
         </FormProvider>
-        <PaginationBar
-          pageNum={pageNum}
-          setPageNum={setPageNum}
-          totalPageNum={totalPage}
-        />
-      </Stack>
-          
-        }
-        
-      <div>
-        {
 
+        <PaginationBar pageNum={pageNum} totalPageNum={totalPage} />
+      </Stack>
+      <div>
         {loading ? (
           <Box sx={{ textAlign: "center", color: "primary.main" }}>
             <ClipLoader color="inherit" size={150} loading={true} />
@@ -156,7 +141,7 @@ const HomePage = () => {
             {books.map((book) => (
               <Card
                 key={book.id}
-                onClick={() => handleClickBook(book.id)}
+                /*onClick={() => handleClickBook(book.id)}*/
                 sx={{
                   width: "12rem",
                   height: "27rem",
@@ -179,10 +164,7 @@ const HomePage = () => {
             ))}
           </Stack>
         )}
-        }
-
-      </div>*/}
-      </Stack>
+      </div>
     </Container>
   );
 };

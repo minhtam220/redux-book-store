@@ -1,5 +1,5 @@
 import apiService from "../../app/apiService";
-import { GET_BOOKS } from "./reducer";
+import { GET_BOOKS, SET_PAGENUM, SET_QUERY } from "./reducer";
 
 export const getBooks = (pageNum, query) => async (dispatch) => {
   try {
@@ -13,4 +13,12 @@ export const getBooks = (pageNum, query) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const setPageNum = (pageNum) => async (dispatch) => {
+  dispatch({ type: SET_PAGENUM, payload: pageNum });
+};
+
+export const setQuery = (query) => async (dispatch) => {
+  dispatch({ type: SET_QUERY, payload: query });
 };
