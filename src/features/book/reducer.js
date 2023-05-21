@@ -7,6 +7,7 @@ const initialState = {
   books: [],
   pageNum: 1,
   query: "",
+  currentBook: null,
 };
 
 const bookReducer = (state = initialState, action) => {
@@ -20,6 +21,8 @@ const bookReducer = (state = initialState, action) => {
       return { ...state, pageNum: payload };
     case SET_QUERY:
       return { ...state, query: payload };
+    case VIEW_BOOK:
+      return { ...state, currentBook: payload };
     default:
       return state;
   }
