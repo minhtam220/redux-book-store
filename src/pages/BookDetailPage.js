@@ -1,12 +1,11 @@
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import api from "../app/apiService";
-import { viewBook } from "../features/book/actions";
-import { addBook } from "../features/list/actions";
+import { viewBook } from "../features/book/slice";
+import { addBook } from "../features/list/slice";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
@@ -15,15 +14,14 @@ const BookDetailPage = () => {
   const bookId = params.id;
   //redux
   const currentBook = useSelector((state) => state.book.currentBook);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(viewBook(bookId));
-  }, [bookId]);
+    dispatch(viewBook({ bookId: bookId }));
+  }, [dispatch, bookId]);
 
   const addToReadingList = (book) => {
-    dispatch(addBook(book));
+    dispatch(addBook({ book: book }));
     toast.success("The book has been added to the reading list!");
   };
 

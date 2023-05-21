@@ -1,7 +1,7 @@
 import React from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { setPageNum } from "../features/book/actions";
+import { setPageNum } from "../features/book/slice";
 import { useDispatch, useSelector } from "react-redux";
 
 const PaginationBar = ({ pageNum, totalPageNum }) => {
@@ -9,7 +9,7 @@ const PaginationBar = ({ pageNum, totalPageNum }) => {
 
   const handlePageChange = (event, value) => {
     dispatch(setPageNum(value));
-    console.log();
+    console.log("Page " + value);
   };
 
   return (

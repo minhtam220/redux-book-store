@@ -14,7 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { listFavorites, removeBook } from "../features/list/actions";
+
+import { listFavorites, removeBook } from "../features/list/slice";
+
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const ReadingPage = () => {
@@ -34,8 +36,7 @@ const ReadingPage = () => {
 
   //remove book from favorite
   const handleRemoveBook = (bookId) => {
-    console.log("removing: " + bookId);
-    dispatch(removeBook(bookId));
+    dispatch(removeBook({ bookId: bookId }));
     toast.success("The book has been removed from the reading list!");
   };
 

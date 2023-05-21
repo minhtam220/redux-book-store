@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import PaginationBar from "../components/PaginationBar";
 import SearchForm from "../components/SearchForm";
-import { getBooks, setQuery } from "../features/book/actions";
+//import { getBooks, setQuery } from "../features/book/actions";
+import { getBooks, setQuery } from "../features/book/slice";
 import { FormProvider } from "../form";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
@@ -33,7 +34,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBooks(pageNum, query, limit));
+    dispatch(getBooks({ pageNum: pageNum, query: query, limit: limit }));
   }, [dispatch, pageNum, query]);
 
   const navigate = useNavigate();
