@@ -1,4 +1,5 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { combineReducers, applyMiddleware } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { composeWithDevTools } from "redux-devtools-extension";
 //import bookReducer from "../features/book/reducer";
 //import listReducer from "../features/list/reducer";
@@ -7,12 +8,18 @@ import { listSlice } from "../features/list/slice";
 
 import thunk from "redux-thunk";
 
+// Combine the reducers
+const rootReducer = combineReducers({
+  book: bookSlice.reducer,
+  list: listSlice.reducer,
+});
+
 const initialState = [];
 
-const store = createStore(
+// Import individual reducer functions
+const store = configureStore(
   combineReducers({
-    book: bookSlice.reducer,
-    list: listSlice.reducer,
+    reducer: rootReducer,
   }),
   initialState,
   composeWithDevTools(applyMiddleware(thunk))
